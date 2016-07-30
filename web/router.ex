@@ -7,6 +7,7 @@ defmodule RumblAgain.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug RumblAgain.Auth, repo: RumblAgain.Repo
   end
 
   pipeline :api do
@@ -16,8 +17,9 @@ defmodule RumblAgain.Router do
   scope "/", RumblAgain do
     pipe_through :browser # Use the default browser stack
 
-    resources "/users", UserController, only: [:index, :show, :new, :create]
     get "/", PageController, :index
+    resources "/users", UserController, only: [:index, :show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.
