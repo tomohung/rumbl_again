@@ -3,7 +3,7 @@ defmodule RumblAgain.Auth do
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
   import Phoenix.Controller
-  alias Rumbl.Router.Helpers
+  alias RumblAgain.Router.Helpers
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)

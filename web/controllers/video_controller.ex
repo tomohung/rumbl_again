@@ -2,6 +2,9 @@ defmodule RumblAgain.VideoController do
   use RumblAgain.Web, :controller
 
   alias RumblAgain.Video
+  alias RumblAgain.Category
+
+  plug :load_categories when action in [:new, :create, :edit, :update]
 
   def action(conn, _) do
     apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
@@ -23,7 +26,7 @@ defmodule RumblAgain.VideoController do
   def create(conn, %{"video" => video_params}, user) do
     changeset =
       user
-      |> build.assoc(:videos)
+      |> build_assoc(:videos)
       |> Video.changeset(video_params)
 
     case Repo.insert(changeset) do
@@ -47,7 +50,7 @@ defmodule RumblAgain.VideoController do
     render(conn, "edit.html", video: video, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "video" => video_params}) do
+  def update(conn, %{"id" => id, "video" => video_params}, user) do
     video = Repo.get!(user_videos(user), id)
     changeset = Video.changeset(video, video_params)
 
@@ -61,7 +64,7 @@ defmodule RumblAgain.VideoController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, user) do
     video = Repo.get!(user_videos(user), id)
 
     # Here we use delete! (with a bang) because we expect
@@ -75,5 +78,15 @@ defmodule RumblAgain.VideoController do
 
   defp user_videos(user) do
     assoc(user, :videos)
+  end
+
+  defp load_categories(conn, _) do
+    query =
+    Category
+    |> Category.alphabetical
+    |> Category.names_and_ids
+
+    categories = Repo.all query
+    assign(conn, :categories, categories)
   end
 end
