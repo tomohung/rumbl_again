@@ -14,7 +14,7 @@ let Player= {
       height: "360",
       width: "420",
       videoId: playerId,
-      event: {
+      events: {
         "onReady": (event => onReady(event)),
         "onStateChange": (event => this.onPlayerStateChange(event))
       }

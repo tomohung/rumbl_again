@@ -2,7 +2,7 @@ defmodule RumblAgain.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  #  channel "videos:*", Rumbl.VideoChannel
+  channel "videos:*", RumblAgain.VideoChannel
 
   #    ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
