@@ -71,6 +71,7 @@ defmodule RumblAgain.Web do
       import Ecto
       import Ecto.Query
       import RumblAgain.Gettext
+      require IEx
     end
   end
 

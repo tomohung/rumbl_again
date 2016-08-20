@@ -10,6 +10,7 @@ defmodule RumblAgain.Video do
     field :slug, :string
     belongs_to :user, RumblAgain.User
     belongs_to :category, RumblAgain.Category
+    has_many :annotations, RumblAgain.Annotation
 
     timestamps()
   end
